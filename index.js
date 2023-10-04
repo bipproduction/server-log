@@ -6,7 +6,7 @@ const express = require('express');
 const { exec } = require('child_process');
 const app = express();
 app.use(express.static("public"))
-// app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 const port = config.server.port;
 let pm2Log = '';
