@@ -1,10 +1,13 @@
+const yaml = require('yaml')
+const fs = require('fs')
+const path = require('path')
+const config = yaml.parse(fs.readFileSync(path.join(__dirname, './config.yaml')).toString())
 const express = require('express');
 const { exec } = require('child_process');
-
 const app = express();
 app.use(express.urlencoded())
 app.use(express.json())
-const port = 3000;
+const port = config.server.port;
 let pm2Log = '';
 
 // Status apakah proses PM2 sedang berjalan
