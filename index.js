@@ -5,7 +5,8 @@ const config = yaml.parse(fs.readFileSync(path.join(__dirname, './config.yaml'))
 const express = require('express');
 const { exec } = require('child_process');
 const app = express();
-app.use(express.urlencoded())
+app.use(express.static("public"))
+// app.use(express.urlencoded())
 app.use(express.json())
 const port = config.server.port;
 let pm2Log = '';
