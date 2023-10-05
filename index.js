@@ -42,9 +42,12 @@ app.post('/log', async (req, res) => {
 app.post('/', handler(async (req, res) => {
     const body = req.body
 
+    console.log(body)
+
     return res.status(201).send("ok")
 }))
 
+
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port} | version ${config.server.version}`);
 });
