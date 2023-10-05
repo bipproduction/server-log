@@ -40,6 +40,7 @@ app.post('/log', async (req, res) => {
 })
 
 app.post('/', handler(async (req, res) => {
+    const body = req.body
 
     return res.status(201).send("ok")
 }))
