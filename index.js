@@ -3,64 +3,46 @@ const fs = require('fs')
 const path = require('path')
 const config = yaml.parse(fs.readFileSync(path.join(__dirname, './config.yaml')).toString())
 const express = require('express');
-const { exec } = require('child_process');
+const { exec, execSync } = require('child_process');
 const app = express();
+app.use(express.json())
+const cors = require('cors');
+const RESPONSE = require('./models/RESPONSE');
+const { URL } = require('url');
+const handler = require('express-async-handler')
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+
+app.use(cors())
 const port = config.server.port;
-let pm2Log = '';
 
-// Status apakah proses PM2 sedang berjalan
-let pm2ProcessRunning = false;
-
-// Endpoint API untuk mendapatkan log dengan query parameter start
-app.get('/log', (req, res) => {
-    const start = req.query.start;
-
-    if (start === 'true' && !pm2ProcessRunning) {
-        // Mulai proses PM2 jika belum berjalan
-        const command = 'pm2 logs --lines 5';
-
-        const child = exec(command);
-
-        child.stdout.on('data', (data) => {
-            // Tambahkan data log ke variabel pm2Log
-            pm2Log += data;
-
-            // Teruskan data log ke respons HTTP
-            console.log(data)
-            res.write(data);
-        });
-
-        child.stderr.on('data', (error) => {
-            console.error(`Error: ${error}`);
-        });
-
-        child.on('close', (code) => {
-            pm2ProcessRunning = false;
-            console.log(`Proses pm2 logs selesai dengan kode keluaran ${code}`);
-            res.end();
-        });
-
-        pm2ProcessRunning = true;
-    } else if (start === 'false' && pm2ProcessRunning) {
-        // Hentikan proses PM2 jika sedang berjalan
-        pm2ProcessRunning = false;
-        res.end();
-    } else {
-        // Kondisi lainnya, kembalikan log yang ada
-        res.send(pm2Log);
-    }
-});
-
-app.post('/hipmi-log', (req, res) => {
-
+app.post('/log', async (req, res) => {
+    let log;
+    /**
+     * @type {RESPONSE}
+     */
     const body = req.body
+    const search = new URL(body.msg).searchParams
+    const param = search.get("param")
+    const cmd = search.get("type")
+    const pswd = search.get("pswd")
+    if (!param || !cmd || !pswd) return res.status(201).send("wrong format")
+    if (pswd !== "1234") return res.status(201).send("wrong password")
+    if (cmd === "log") {
 
-    console.log(body)
-    res.status(201).send("ok")
+        const child = exec(`pm2 log ${param}`)
+        child.stdout.on("data", (d) => {
+            log += d
+        })
+    }
+    await new Promise(r => setTimeout(r, 3000))
+    res.status(201).send(log)
 })
+
+app.post('/', handler(async (req, res) => {
+
+    return res.status(201).send("ok")
+}))
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

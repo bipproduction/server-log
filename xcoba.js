@@ -1,7 +1,2 @@
-const {fetch} = require('cross-fetch')
-fetch('https://log.wibudev.com/hipmi-log?pswd=1234', {
-    method: "POST",
-    body: JSON.stringify({
-        nama: "malik"
-    })
-})
+const url = "https://log.wibudev.com/hipmi-log?pswd=1234&data=apa"
+const pswd = new URL(url).searchParams.values()
