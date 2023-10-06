@@ -1,2 +1,2 @@
-const config = require("./src/config");
-console.log(config)
+const [satu, dua] = "satu dua".split(" ")
+console.log(satu)

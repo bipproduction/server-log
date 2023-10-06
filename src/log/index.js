@@ -1,22 +1,12 @@
 const { exec } = require('child_process')
 const { fetch } = require('cross-fetch')
 const config = require('../config')
-
-const TYPE_PROP = {
-    id: "",
-    name: "",
-    path: "",
-    url: "",
-    req: "",
-    res: "",
-    sender: "",
-    senderName: "",
-    msg: ""
-}
+const send_wa = require('../send_wa')
+const PROP = require('../../models/PROP')
 
 /**
  * 
- * @param {TYPE_PROP} prop 
+ * @param {PROP} prop 
  * @returns 
  */
 module.exports = async function (prop) {
@@ -27,6 +17,6 @@ module.exports = async function (prop) {
     })
 
     await new Promise(r => setTimeout(r, 3000))
-    await fetch(`${config.server.wa_host}/code?nom=${prop.sender}&text=${encodeURIComponent(log)}`)
+    await send_wa(prop.sender, log)
     return prop.res.status(201).send("ok")
 }
