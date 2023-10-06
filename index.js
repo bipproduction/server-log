@@ -68,7 +68,7 @@ app.post('/', handler(async (req, res) => {
     const menu = `
 🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀   
 📚 DAFTAR PERINTAH :
--------------------
+
 😎 log:
       hipmi
       arm
