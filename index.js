@@ -1,8 +1,12 @@
-const yaml = require('yaml')
+const CONFIG = require('./models/CONFIG');
+/**
+ * @type {CONFIG}
+ */
+const config = require('./src/config');
 const fs = require('fs')
 const path = require('path')
-const config = yaml.parse(fs.readFileSync(path.join(__dirname, './config.yaml')).toString())
 const express = require('express');
+
 const { exec, execSync } = require('child_process');
 const app = express();
 app.use(express.json())
@@ -14,10 +18,9 @@ const { fetch } = require('cross-fetch');
 const log = require('./src/log');
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
-const wa_host = `https://wa.wibudev.com`
 app.use(cors())
 const port = config.server.port;
-const _ = require('lodash')
+const _ = require('lodash');
 
 const list_action = [
     {
@@ -56,17 +59,17 @@ app.post('/log', async (req, res) => {
 app.post('/', handler(async (req, res) => {
 
     const menu = `
-    ----------------------------
-    | 📚 DAFTAR PERINTAH :
-    | log:
-    |   log hipmi
-    |       arm
-    |       ninox
-    | 
-    |  contoh:
-    |     bipsrv log hipmi
-    |     bipsvr log arm
-    -----------------------------
+    ---------------------------------------
+    📚 DAFTAR PERINTAH :
+    log:
+          hipmi
+          arm
+          ninox
+    
+    contoh:
+        bipsrv log hipmi
+        bipsvr log arm
+    ---------------------------------------
     `
 
     /**
@@ -77,24 +80,24 @@ app.post('/', handler(async (req, res) => {
 
     console.log(body)
     if (!type || !param) {
-        fetch(`${wa_host}/code?nom=${body.sender}&text=${encodeURIComponent(menu)}`)
+        fetch(`${config.wa_host}/code?nom=${body.sender}&text=${encodeURIComponent(menu)}`)
         console.log("no type or param, show menu")
         return res.status(201).send("no type or param")
     }
 
     if (type === "log") {
-        const action = list_action.find((v) => v.name === "param")
+        const action = list_action.find((v) => v.name === param)
         if (action) {
             const prop = {
                 ...body,
                 req,
                 res,
-                wa_host,
                 ...action
             }
             return await action.action(_.omit(prop, ['action']))
         }
     }
+
 
     return res.status(201).send("ok")
 }))
