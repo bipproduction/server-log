@@ -110,7 +110,12 @@ contoh:
         send_wa(body.sender, "😎 tunggu sebentar ...")
         const q = body.msg.split(" ").slice(2).join(" ")
         const j = await fetch(`https://hercai.onrender.com/v2/hercai?question=${q}`).then(v => v.json())
-        const hasil = j.reply.replace("Hercai", "bipsvr").replace("Five", "Malik Kurosaki").replace("OpenAI", "BIP").replace("Herc.ai.", "bipsvr.ai")
+        const hasil = j.reply
+            .replace("Hercai", "bipsvr")
+            .replace("Five", "Malik Kurosaki")
+            .replace("OpenAI", "BIP")
+            .replace("Herc.ai.", "bipsvr.ai")
+            
         send_wa(body.sender, hasil)
         return res.status(201).send("ok")
     } else {
