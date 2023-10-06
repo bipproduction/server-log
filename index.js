@@ -45,14 +45,17 @@ app.post('/log', async (req, res) => {
 app.post('/', handler(async (req, res) => {
 
     const menu = `
-    log hipmi
-        arm
-        ninox
-    
-    perintah: 
-        bipsrv log hipmi
-        bipsvr log arm
-    
+    ----------------------------
+    | 📚 DAFTAR PERINTAH :
+    | log:
+    |   log hipmi
+    |       arm
+    |       ninox
+    | 
+    |  contoh:
+    |     bipsrv log hipmi
+    |     bipsvr log arm
+    -----------------------------
     `
 
     /**
