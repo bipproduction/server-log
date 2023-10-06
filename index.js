@@ -42,11 +42,14 @@ app.post('/log', async (req, res) => {
 })
 
 app.post('/', handler(async (req, res) => {
+
     /**
      * @type {RESPONSE}
      */
     const body = req.body
     const [_, type, param] = body.msg.split(" ")
+
+    console.log(body)
     if (!type || !param) return res.status(201).send("no type or param")
     console.log(type, param)
     return res.status(201).send("ok")
