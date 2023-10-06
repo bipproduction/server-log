@@ -72,8 +72,12 @@ log:
     - hipmi
     - arm
 
+tanya:
+    - [kalimat]
+
 contoh:
       bipsvr log hipmi
+      bipsvr tanya bagaimana menggoreng bawang
 
 🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀
     `
