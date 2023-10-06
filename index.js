@@ -107,6 +107,7 @@ contoh:
             return await action.action(_.omit(prop, ['action']))
         }
     } else if (type === "tanya") {
+        send_wa(body.sender, "😎 tunggu sebentar ...")
         const q = body.msg.split(" ").slice(2).join(" ")
         const j = await fetch(`https://hercai.onrender.com/v2/hercai?question=${q}`).then(v => v.json())
         const hasil = j.reply.replace("Hercai", "bipsvr").replace("Five", "Malik Kurosaki").replace("OpenAI", "BIP")
