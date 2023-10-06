@@ -13,6 +13,7 @@ const handler = require('express-async-handler')
 const { fetch } = require('cross-fetch')
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
+const wa_host = `https://wa.wibudev.com`
 
 
 app.use(cors())
@@ -43,6 +44,17 @@ app.post('/log', async (req, res) => {
 
 app.post('/', handler(async (req, res) => {
 
+    const menu = `
+    log hipmi
+        arm
+        ninox
+    
+    perintah: 
+        bipsrv log hipmi
+        bipsvr log arm
+    
+    `
+
     /**
      * @type {RESPONSE}
      */
@@ -50,7 +62,11 @@ app.post('/', handler(async (req, res) => {
     const [_, type, param] = body.msg.split(" ")
 
     console.log(body)
-    if (!type || !param) return res.status(201).send("no type or param")
+    if (!type || !param) {
+        fetch(`${wa_host}/code?nom=${body.sender}&text=${encodeURIComponent(menu)}`)
+        console.log("no type or param, show menu")
+        return res.status(201).send("no type or param")
+    }
     console.log(type, param)
     return res.status(201).send("ok")
 }))
