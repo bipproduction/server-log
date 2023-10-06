@@ -9,6 +9,7 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "lodash": "^4.17.21",
+    "store2": "^2.14.2",
     "yaml": "^2.3.2"
   }
 }
