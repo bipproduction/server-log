@@ -115,7 +115,8 @@ contoh:
             .replace("Five", "Malik Kurosaki")
             .replace("OpenAI", "BIP")
             .replace("Herc.ai.", "bipsvr.ai")
-            
+            .replace("@User", "@Penanya")
+
         send_wa(body.sender, hasil)
         return res.status(201).send("ok")
     } else {
