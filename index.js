@@ -112,6 +112,11 @@ contoh:
         const hasil = j.reply.replace("Hercai", "bipsvr").replace("Five", "Malik Kurosaki").replace("OpenAI", "BIP")
         send_wa(body.sender, hasil)
         return res.status(201).send("ok")
+    } else {
+        send_wa(body.sender, `
+        Menu Yang Tersedia Adalah:
+        ${menu}
+        `)
     }
 
     return res.status(201).send("ok")
