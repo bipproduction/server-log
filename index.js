@@ -10,8 +10,10 @@ const cors = require('cors');
 const RESPONSE = require('./models/RESPONSE');
 const { URL } = require('url');
 const handler = require('express-async-handler')
+const { fetch } = require('cross-fetch')
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
+
 
 app.use(cors())
 const port = config.server.port;
@@ -40,10 +42,13 @@ app.post('/log', async (req, res) => {
 })
 
 app.post('/', handler(async (req, res) => {
+    /**
+     * @type {RESPONSE}
+     */
     const body = req.body
-
-    console.log(body)
-
+    const [_, type, param] = body.msg.split(" ")
+    if (!type || !param) return res.status(201).send("no type or param")
+    console.log(type, param)
     return res.status(201).send("ok")
 }))
 
