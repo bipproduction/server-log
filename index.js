@@ -66,7 +66,7 @@ app.post('/log', async (req, res) => {
 app.post('/', handler(async (req, res) => {
 
     const menu = `
-    🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴
+    
     📚 DAFTAR PERINTAH :
     😎  log:
             hipmi
@@ -74,7 +74,7 @@ app.post('/', handler(async (req, res) => {
     
     🙈  contoh:
             bipsvr log hipmi
-    🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴🪴
+    
     `
 
     /**
