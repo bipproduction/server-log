@@ -80,7 +80,7 @@ app.post('/', handler(async (req, res) => {
 
     console.log(body)
     if (!type || !param) {
-        fetch(`${config.wa_host}/code?nom=${body.sender}&text=${encodeURIComponent(menu)}`)
+        fetch(`${config.server.wa_host}/code?nom=${body.sender}&text=${encodeURIComponent(menu)}`)
         console.log("no type or param, show menu")
         return res.status(201).send("no type or param")
     }
@@ -97,7 +97,6 @@ app.post('/', handler(async (req, res) => {
             return await action.action(_.omit(prop, ['action']))
         }
     }
-
 
     return res.status(201).send("ok")
 }))

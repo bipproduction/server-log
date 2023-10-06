@@ -1,5 +1,7 @@
 const { exec } = require('child_process')
 const { fetch } = require('cross-fetch')
+const config = require('../config')
+
 const TYPE_PROP = {
     id: "",
     name: "",
@@ -7,7 +9,6 @@ const TYPE_PROP = {
     url: "",
     req: "",
     res: "",
-    wa_host: "",
     sender: "",
     senderName: "",
     msg: ""
@@ -26,6 +27,6 @@ module.exports = async function (prop) {
     })
 
     await new Promise(r => setTimeout(r, 3000))
-    await fetch(`${prop.wa_host}/code?nom=${prop.sender}&text=${encodeURIComponent(log)}`)
+    await fetch(`${config.server.wa_host}/code?nom=${prop.sender}&text=${encodeURIComponent(log)}`)
     return prop.res.status(201).send("ok")
 }
