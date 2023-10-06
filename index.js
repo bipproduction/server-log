@@ -10,14 +10,25 @@ const cors = require('cors');
 const RESPONSE = require('./models/RESPONSE');
 const { URL } = require('url');
 const handler = require('express-async-handler')
-const { fetch } = require('cross-fetch')
+const { fetch } = require('cross-fetch');
+const log = require('./src/log');
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
 const wa_host = `https://wa.wibudev.com`
-
-
 app.use(cors())
 const port = config.server.port;
+const _ = require('lodash')
+
+const list_action = [
+    {
+        id: "hipmi_5005",
+        name: "hipmi",
+        path: "hipmi",
+        url: "https://hipmi.wibudev.com",
+        action: log
+    }
+]
+
 
 app.post('/log', async (req, res) => {
     let log;
@@ -62,7 +73,7 @@ app.post('/', handler(async (req, res) => {
      * @type {RESPONSE}
      */
     const body = req.body
-    const [_, type, param] = body.msg.split(" ")
+    const [args, type, param] = body.msg.split(" ")
 
     console.log(body)
     if (!type || !param) {
@@ -70,7 +81,21 @@ app.post('/', handler(async (req, res) => {
         console.log("no type or param, show menu")
         return res.status(201).send("no type or param")
     }
-    console.log(type, param)
+
+    if (type === "log") {
+        const action = list_action.find((v) => v.name === "param")
+        if (action) {
+            const prop = {
+                ...body,
+                req,
+                res,
+                wa_host,
+                ...action
+            }
+            return await action.action(_.omit(prop, ['action']))
+        }
+    }
+
     return res.status(201).send("ok")
 }))
 
