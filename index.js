@@ -19,6 +19,7 @@ app.use(cors())
 const port = config.server.port;
 const _ = require('lodash');
 const send_wa = require('./src/send_wa');
+require('colors')
 
 const list_action = [
     {
@@ -83,6 +84,10 @@ app.post('/', handler(async (req, res) => {
      * @type {RESPONSE}
      */
     const body = req.body
+    console.log(`
+    ${JSON.stringify(body, null, 2)}
+    `.gray)
+
     const [args, param, type] = body.msg.split(" ")
 
     if (!type || !param) {
