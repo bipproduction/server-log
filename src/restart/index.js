@@ -12,6 +12,7 @@ module.exports = async function (prop) {
         log += data
     })
 
+    await new Promise(r => setTimeout(r, 2000))
     send_wa(prop.sender, log)
     return prop.res.status(201).send("ok")
 }

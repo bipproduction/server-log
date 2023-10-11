@@ -110,6 +110,13 @@ app.post('/', handler(async (req, res) => {
     }
 
     send_wa(prop.sender, `😎 ${prop.senderName} wait ... `)
+    if (_server && !_action) {
+        const avab = `
+        Available Option:
+        ${list_action.map((v) => v.name).join("\n")}
+        `
+        send_wa(prop.sender, avab)
+    }
     if (_server && _action) return await _action.act(prop)
 
 
