@@ -1,15 +1,14 @@
 const { exec } = require('child_process')
-const { fetch } = require('cross-fetch')
-const config = require('../config')
 const send_wa = require('../send_wa')
 const PROP = require('../../models/PROP')
 
 /**
  * 
- * @param {PROP} prop 
+ * @param {import('../../models/PROP2').PROP2} prop 
  * @returns 
  */
 module.exports = async function (prop) {
+
     let log;
     const child = exec(`pm2 log ${prop.id}`)
     child.stdout.on("data", (data) => {

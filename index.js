@@ -84,65 +84,66 @@ app.post('/', handler(async (req, res) => {
      * @type {RESPONSE}
      */
     const body = req.body
-    const [args, param, type] = body.msg.split(" ")
+    const [args, server, action] = body.msg.split(" ")
 
-    console.log(args, param, type, "disini".green)
+    console.log(args, server, action, "disini".green)
 
-    if (!type || !param) {
+    if (!action || !server) {
         send_wa(body.sender, menu)
         console.log("no type or param, show menu")
         return res.status(201).send("no type or param")
     }
 
-    const _server = list_server.find((v) => v.name === param)
-    if (!_server) {
-        return await tanya(res, body)
+    const _server = list_server.find((v) => v.name === server)
+    const _action = list_action.find((v) => v.name === action)
+
+    const prop = {
+        ...body,
+        req,
+        res,
+        ..._server
     }
 
-    const _action = list_action.find((v) => v.name === type)
-    if (!_action) {
-        return await tanya(res, body)
-    }
+    if (_server && _action) return await _action.act(prop)
 
-    return await _action.act(_server)
 
-    if (type === "log") {
-        console.log("")
-        const action = list_server.find((v) => v.name === param)
-        if (action) {
-            const prop = {
-                ...body,
-                req,
-                res,
-                ...action
-            }
-            return await action.action(_.omit(prop, ['action']))
-        }
-    } else if (type === "tanya") {
-        send_wa(body.sender, "😎 tunggu sebentar ...")
-        const q = body.msg.split(" ").slice(2).join(" ")
-        const j = await fetch(`https://hercai.onrender.com/v2/hercai?question=${q}`).then(v => v.json())
-        const hasil = j.reply
-            .replace("Hercai", "bipsvr")
-            .replace("Five", "Malik Kurosaki")
-            .replace("OpenAI", "BIP")
-            .replace("Herc.ai.", "bipsvr.ai")
-            .replace("@User", "@Penanya")
+    // if (action === "log") {
+    //     console.log("")
+    //     const action = list_server.find((v) => v.name === server)
+    //     if (action) {
+    //         const prop = {
+    //             ...body,
+    //             req,
+    //             res,
+    //             ...action
+    //         }
+    //         return await action.action(_.omit(prop, ['action']))
+    //     }
+    // } else if (action === "tanya") {
+    //     send_wa(body.sender, "😎 tunggu sebentar ...")
+    //     const q = body.msg.split(" ").slice(2).join(" ")
+    //     const j = await fetch(`https://hercai.onrender.com/v2/hercai?question=${q}`).then(v => v.json())
+    //     const hasil = j.reply
+    //         .replace("Hercai", "bipsvr")
+    //         .replace("Five", "Malik Kurosaki")
+    //         .replace("OpenAI", "BIP")
+    //         .replace("Herc.ai.", "bipsvr.ai")
+    //         .replace("@User", "@Penanya")
 
-        send_wa(body.sender, hasil)
-        return res.status(201).send("ok")
-    } else {
-        send_wa(body.sender, `
-        Menu Yang Tersedia Adalah:
-        ${menu}
-        `)
-    }
+    //     send_wa(body.sender, hasil)
+    //     return res.status(201).send("ok")
+    // } else {
+    //     send_wa(body.sender, `
+    //     Menu Yang Tersedia Adalah:
+    //     ${menu}
+    //     `)
+    // }
 
     return res.status(201).send("ok")
 }))
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port} | version ${config.server.version}`);
+    console.log(`Server is running on port ${port} | version ${config.server.version}`.cyan);
 });
 
 
