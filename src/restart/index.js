@@ -1,3 +1,17 @@
-module.exports = async function(prop){
+const { exec } = require('child_process');
+const send_wa = require('../send_wa');
 
+/**
+ * 
+ * @param {import("../../models/PROP2").PROP2} prop 
+ */
+module.exports = async function (prop) {
+    let log;
+    const child = exec(`pm2 restart ${prop.id}`)
+    child.stdout.on('data', (data) => {
+        log += data
+    })
+
+    send_wa(prop.sender, log)
+    return prop.res.status(201).send("ok")
 }

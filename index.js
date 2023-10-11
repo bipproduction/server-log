@@ -19,12 +19,17 @@ app.use(cors())
 const port = config.server.port;
 const _ = require('lodash');
 const send_wa = require('./src/send_wa');
+const restart = require('./src/restart');
 require('colors')
 
 const list_action = [
     {
         name: "log",
         act: log
+    },
+    {
+        name: "restart",
+        act: restart
     }
 ]
 
@@ -103,6 +108,7 @@ app.post('/', handler(async (req, res) => {
         res,
         ..._server
     }
+
     send_wa(prop.sender, `😎 ${prop.senderName} wait ... `)
     if (_server && _action) return await _action.act(prop)
 
