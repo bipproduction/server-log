@@ -103,7 +103,7 @@ app.post('/', handler(async (req, res) => {
         res,
         ..._server
     }
-    send_wa(prop.sender, "😎 wait ... ")
+    send_wa(prop.sender, `😎 ${prop.senderName} wait ... `)
     if (_server && _action) return await _action.act(prop)
 
 
