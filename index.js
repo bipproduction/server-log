@@ -83,6 +83,14 @@ app.post('/', handler(async (req, res) => {
     const menu = `
 🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀   
 📚 DAFTAR PERINTAH :
+Server Availabel:
+${list_server.map((v) => v.name).join("\n")}
+
+Option Available:
+${list_action.map((v) => v.name).join("\n")}
+
+Example:
+bipsvr ${list_server[0].name} ${list_action[0].name}
 🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀
     `
     /**
