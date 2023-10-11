@@ -84,13 +84,9 @@ app.post('/', handler(async (req, res) => {
      * @type {RESPONSE}
      */
     const body = req.body
-    console.log(`
-    ${JSON.stringify(body, null, 2)}
-    `.gray)
-
     const [args, param, type] = body.msg.split(" ")
 
-    console.log(args, param, type)
+    console.log(args, param, type, "disini".green)
 
     if (!type || !param) {
         send_wa(body.sender, menu)
