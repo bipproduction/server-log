@@ -90,6 +90,8 @@ app.post('/', handler(async (req, res) => {
 
     const [args, param, type] = body.msg.split(" ")
 
+    console.log(args, param, type)
+
     if (!type || !param) {
         send_wa(body.sender, menu)
         console.log("no type or param, show menu")
