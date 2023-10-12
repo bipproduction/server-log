@@ -20,7 +20,9 @@ module.exports = async function (prop) {
         echo "Proses $PID_NAME belum berjalan, di-start."
     fi
     `
-    execSync(cmd)
+    const child = execSync(cmd)
+    console.log(child.toString())
+
     send_wa(prop.body.sender, `😎 H1 ${prop.body.senderName} ${prop.server.name} Studio START Success \n http://${prop.server.url}:${prop.server.studio_port}`)
     return prop.res.status(201).send("ok")
 }
