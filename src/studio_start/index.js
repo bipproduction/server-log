@@ -22,8 +22,13 @@ module.exports = async function (prop) {
     `
 
     let apa = "start"
-    const child = execSync(`pm2 restart ${prop.server.studio_name}`)
-    if (child.toString().includes("ERROR")) {
+    try {
+        const child = execSync(`pm2 restart ${prop.server.studio_name}`)
+        if (child.toString().includes("ERROR")) {
+            execSync(`pm2 start "npx prisma studio --port ${prop.server.studio_port}" --name ${prop.server.studio_name}`)
+            apa = "restart"
+        }
+    } catch (error) {
         execSync(`pm2 start "npx prisma studio --port ${prop.server.studio_port}" --name ${prop.server.studio_name}`)
         apa = "restart"
     }
