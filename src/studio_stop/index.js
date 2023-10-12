@@ -1,5 +1,6 @@
 const { execSync } = require("child_process")
 const send_wa = require("../send_wa")
+require('colors')
 
 /**
  * 
@@ -7,7 +8,11 @@ const send_wa = require("../send_wa")
  * @returns 
  */
 module.exports = async function studio_stop(prop) {
-    execSync(`pm2 stop ${prop.server.studio_name}`)
-    send_wa(prop.body.sender, `😎 H1 ${prop.body.senderName} ${prop.server.name} Studio STOP Success `)
+    try {
+        execSync(`pm2 stop ${prop.server.studio_name}`)
+        send_wa(prop.body.sender, `😎 H1 ${prop.body.senderName} ${prop.server.name} Studio STOP Success `)
+    } catch (error) {
+        console.log(`${error}`.yellow)
+    }
     return prop.res.status(201).send("ok")
 }
