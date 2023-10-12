@@ -62,6 +62,15 @@ const list_server = [
         name: "arm",
         path: "arm",
         url: "arm.wibudev.com"
+    },
+    {
+        id: "ninox-fox_5010",
+        port: 5010,
+        studio_name: "ninox_studio",
+        studio_port: 5553,
+        name: "ninox-fox",
+        path: "ninox-fox",
+        url: "ninox-fox.wibudev.com"
     }
 ]
 

@@ -7,20 +7,6 @@ const pm2 = require('pm2')
  * @param {import('../../models_ts/PROP2').PROP2} prop 
  */
 module.exports = async function (prop) {
-    // const cmd = `
-    // PID_NAME="${prop.server.studio_name}"
-    // # Periksa apakah proses dengan nama PID tersebut sudah berjalan
-    // pm2 describe $PID_NAME &>/dev/null
-    // # Periksa status exit code dari perintah describe
-    // if [ $? -eq 0 ]; then
-    //     pm2 restart $PID_NAME
-    //     echo "Proses $PID_NAME sudah berjalan, di-restart."
-    // else
-    //     cd ../${prop.server.path}   
-    //     pm2 start "npx prisma studio --port ${prop.server.studio_port}" --name ${prop.server.studio_name}
-    //     echo "Proses $PID_NAME belum berjalan, di-start."
-    // fi
-    // `
     const child = execSync(`pm2 restart ${prop.server.studio_name}`)
 
     console.log(child.toString())
