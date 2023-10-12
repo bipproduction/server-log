@@ -52,7 +52,7 @@ const list_server = [
         studio_port: 5551,
         name: "hipmi",
         path: "hipmi",
-        url: "https://hipmi.wibudev.com"
+        url: "hipmi.wibudev.com"
     },
     {
         id: "arm_5004",
@@ -61,7 +61,7 @@ const list_server = [
         studio_port: 5552,
         name: "arm",
         path: "arm",
-        url: "https://arm.wibudev.com"
+        url: "arm.wibudev.com"
     }
 ]
 
