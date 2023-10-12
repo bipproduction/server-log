@@ -9,13 +9,25 @@
 // }
 // main()
 
-const pm2_list = require('./pm2_list.json')
+// const pm2_list = require('./pm2_list.json')
 
-const {execSync} = require('child_process')
-const fs = require('fs')
-const child = execSync('pm2 jlist').toString()
+// const {execSync} = require('child_process')
+// const fs = require('fs')
+// const child = execSync('pm2 jlist').toString()
 
 
-fs.writeFileSync('pm2_list', child)
-console.log('success')
+// fs.writeFileSync('pm2_list', child)
+// console.log('success')
+
 // console.log(JSON.parse(child))
+
+const pm2 = require('pm2')
+
+pm2.describe("ex_501", (error, data) => {
+    if (error) {
+        console.log("error")
+        pm2.disconnect()
+    }
+    console.log(data)
+    pm2.disconnect()
+})
