@@ -20,9 +20,15 @@ module.exports = async function (prop) {
         echo "Proses $PID_NAME belum berjalan, di-start."
     fi
     `
-    const child = execSync(cmd)
-    console.log(child.toString())
 
+    let apa = "start"
+    const child = execSync(`pm2 restart ${prop.server.studio_name}`)
+    if (child.toString().includes("ERROR")) {
+        execSync(`pm2 start "npx prisma studio --port ${prop.server.studio_port}" --name ${prop.server.studio_name}`)
+        apa = "restart"
+    }
+
+    console.log(apa, prop.server.studio_name)
     send_wa(prop.body.sender, `😎 H1 ${prop.body.senderName} ${prop.server.name} Studio START Success \n http://${prop.server.url}:${prop.server.studio_port}`)
     return prop.res.status(201).send("ok")
 }
