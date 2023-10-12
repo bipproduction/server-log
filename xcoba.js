@@ -9,6 +9,13 @@
 // }
 // main()
 
-const [satu, dua, tiga] = "apa dua tiga".split(" ")
+const pm2_list = require('./pm2_list.json')
 
-console.log(satu)
+const {execSync} = require('child_process')
+const fs = require('fs')
+const child = execSync('pm2 jlist').toString()
+
+
+fs.writeFileSync('pm2_list', child)
+console.log('success')
+// console.log(JSON.parse(child))
